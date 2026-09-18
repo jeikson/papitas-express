@@ -1,0 +1,135 @@
+# Papitas Express — pedidos por WhatsApp
+
+Tienda web para tomar pedidos: el cliente arma su carrito, deja sus datos y **la comanda llega como mensaje de WhatsApp** a la tienda. Sin backend, sin base de datos, sin POS.
+
+- Un solo archivo de configuración (`js/config.js`) y uno de menú (`js/menu.js`).
+- Funciona abriendo `index.html` o subiendo la carpeta a cualquier hosting estático (Netlify, Cloudflare Pages, Vercel, GitHub Pages).
+- Carrito y datos del cliente guardados en el navegador (`localStorage`): si el cliente recarga, no pierde el pedido.
+
+## Estructura
+
+```
+papitas-express/
+├── index.html            # estructura de la página
+├── css/styles.css        # estilos (mobile first)
+├── js/config.js          # CONFIGURACIÓN: WhatsApp, horario, domicilio, pagos
+├── js/menu.js            # MENÚ: productos, precios, adiciones, salsas, barrios
+├── js/app.js             # lógica del carrito y del mensaje
+└── assets/img/           # logo y fotos de los productos
+```
+
+## Probarlo en local
+
+```bash
+cd papitas-express
+python3 -m http.server 8899
+# abre http://localhost:8899
+```
+
+También funciona con doble clic en `index.html` (todo es local, sin peticiones externas).
+
+## Cambiar el número de WhatsApp
+
+En `js/config.js`:
+
+```js
+negocio: {
+  whatsapp: '573007107250',   // internacional, sin + ni espacios
+  telefonoVisible: '300 710 7250',
+}
+```
+
+## Editar el menú
+
+En `js/menu.js`. Precios en pesos, sin puntos: `29000`.
+
+```js
+productos: [
+  { id: 1, cat: 'ESTACIONES', nombre: 'Estación Mixta', precio: 30000,
+    desc: 'Texto corto que se ve en la tarjeta.',
+    ingredientes: ['Papitas crocantes', 'Queso derretido'],   // se muestran como etiquetas
+    img: 'assets/img/estacion-03-mixta.jpg',                  // '' = sin foto
+    destacado: true }                                         // muestra la cinta "Más pedida"
+]
+```
+
+- `adiciones`: productos extra con precio que se ofrecen dentro de cada producto.
+- `salsas` y `opciones`: listas de selección múltiple (sin costo).
+- `categorias`: el orden de las pestañas. Si cambias una categoría, ajústala también en los productos.
+
+## Domicilio
+
+- **Valor fijo**: `domicilio: { activo: true, usarBarrios: false, valorFijo: 3000 }`.
+- **Por barrio/zona**: `usarBarrios: true` y llena la lista `barrios` en `js/menu.js`:
+
+```js
+barrios: [
+  { nombre: 'Centro', valor: 3000 },
+  { nombre: 'Bocagrande', valor: 5000 },
+]
+```
+
+Con `usarBarrios: true` el cliente elige el barrio en un desplegable que muestra el valor del envío y el total se recalcula solo.
+
+## Horario
+
+```js
+horario: { inicio: '16:00', fin: '23:30', bloquearFueraDeHorario: false }
+```
+
+- Con `bloquearFueraDeHorario: false` solo se muestra el aviso de "cerrado" y el pedido se puede enviar igual.
+- Con `true`, el botón de envío se desactiva fuera de horario.
+- Usa la hora del dispositivo del cliente. Si el horario cruza medianoche (ej. `20:00` a `02:00`) también funciona.
+
+## Pago
+
+```js
+pagos: ['Efectivo', 'Transferencia / Nequi', 'Datáfono'],
+pedirPagaCon: true,   // con Efectivo pregunta "¿con cuánto pagas?" y calcula el cambio
+```
+
+Si usas Nequi/Bancolombia, pon el número o la llave en el nombre de la opción, ej. `'Nequi 300 710 7250'`.
+
+## Cómo llega la comanda
+
+El mensaje se arma con formato de WhatsApp (`*negrita*`), con estos datos:
+
+```
+*NUEVO PEDIDO — PAPITAS EXPRESS*
+Pedido #WH7G · 17/09/2026, 10:08 p.m.
+
+*Cliente*
+Nombre: ... / Teléfono: ... / Entrega: Domicilio
+Dirección: ... / Referencia: ...
+Pago: Efectivo — paga con $ 100.000
+Llevar cambio de: $ 20.500
+
+*Pedido*
+2 x Estación Mixta — $ 72.000
+   • Salsas: Rosada de la casa, Piña
+   • Adiciones: Tocino caramelizado, Guacamole
+1 x Coca Cola — $ 4.500
+
+Subtotal: $ 76.500
+Domicilio: $ 3.000
+*TOTAL: $ 79.500*
+```
+
+Al enviar se abre `https://wa.me/<número>?text=<comanda>`: sale del WhatsApp del cliente (o WhatsApp Web en computador) con el mensaje listo y el cliente solo da "enviar". La tienda responde por ahí mismo, así que queda la conversación completa.
+
+**Si más adelante quieres que salga solo** (sin que el cliente dé enviar), hay que pasar a la API de WhatsApp Business (Cloud API) con un servidorcito que reciba el pedido y lo envíe. Ese cambio solo toca la función `enviar()` de `js/app.js`.
+
+## Publicarlo
+
+Cualquier hosting estático:
+
+- **Netlify / Cloudflare Pages**: arrastra la carpeta o conecta el repo. Sin build, sin comando.
+- **GitHub Pages**: sube los archivos y activa Pages sobre la rama.
+- Recomendado: HTTPS siempre (WhatsApp y algunos navegadores lo requieren para abrir enlaces externos sin avisos).
+
+## Detalles de implementación
+
+- HTML + CSS + JavaScript sin dependencias ni build. Todo el estado en memoria + `localStorage`.
+- Mobile first: bottom sheet para el producto, panel lateral en escritorio, barra inferior con el total siempre visible.
+- Validación en el navegador (nombre, teléfono, dirección, valor de pago vs. total). No hay validaciones en servidor porque no hay servidor: si necesitas control de precios, la comanda ya va con los precios congelados al momento del envío.
+- El número de WhatsApp y todos los datos del negocio son públicos en el código (igual que en cualquier web estática). No pongas ahí datos sensibles.
