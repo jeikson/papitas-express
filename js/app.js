@@ -310,7 +310,7 @@
     var meta = '';
     if (p.destacado) meta += '<span class="pill-badge">' + ic('flame', 14) + 'Muy pedido</span>';
     if (MENU.calificaciones && MENU.calificaciones.pct) {
-      meta += '<span class="pill-rating">' + ic('check', 14) + MENU.calificaciones.pct + '% · ' + MENU.calificaciones.total + ' calificaciones</span>';
+      meta += '<span class="pill-rating">' + ic('star', 14) + MENU.calificaciones.pct + '% · ' + MENU.calificaciones.total + ' calificaciones</span>';
     }
     if (meta) h += '<div class="ficha__meta">' + meta + '</div>';
 
@@ -507,7 +507,7 @@
       var u = ultimoPedido();
       $('#drawerTitle').textContent = 'Tu pedido';
       foot.hidden = true;
-      body.innerHTML = '<div class="estado-vacio">' + ic('cart', 34) +
+      body.innerHTML = '<div class="estado-vacio">' + ic('bag', 34) +
         '<h3>Tu pedido está vacío</h3><p>Agrega tu estación favorita y vuelve aquí.</p>' +
         '<button class="btn btn--cta" data-vermenu>Ver el menú</button>' +
         (u ? '<button class="btn btn--ghost" data-repetir style="margin-top:10px">Repetir mi último pedido</button>' : '') +
@@ -569,7 +569,7 @@
               '<span class="stepper"><button type="button" data-menos="' + esc(k) + '" aria-label="Quitar uno">' + ic('minus', 18) + '</button>' +
               '<b>' + it.cant + '</b>' +
               '<button type="button" data-mas="' + esc(k) + '" aria-label="Agregar uno">' + ic('plus', 18) + '</button></span>' +
-              '<button type="button" class="linkbtn" data-editar="' + esc(k) + '">' + ic('plus', 16) + 'Cambiar opciones</button>' +
+              '<button type="button" class="linkbtn" data-editar="' + esc(k) + '">' + ic('utensils', 16) + 'Cambiar opciones</button>' +
               '<button type="button" class="linkbtn" data-del="' + esc(k) + '">' + ic('trash', 18) + '</button>' +
             '</div></div></div>';
       }).join('') +
