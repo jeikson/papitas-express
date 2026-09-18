@@ -64,13 +64,13 @@ window.MENU = {
     },
 
     // Bebidas (carta, página de BEBIDAS)
-    { id: 20, cat: 'BEBIDAS', nombre: 'Coca cola', precio: 4500, desc: '', img: 'assets/img/bebidas/coca-cola.jpg' },
-    { id: 21, cat: 'BEBIDAS', nombre: 'Sprite', precio: 4500, desc: '', img: 'assets/img/bebidas/sprite.jpg' },
-    { id: 22, cat: 'BEBIDAS', nombre: 'Quatro', precio: 4500, desc: '', img: 'assets/img/bebidas/quatro.jpg' },
-    { id: 23, cat: 'BEBIDAS', nombre: 'Del Valle', precio: 4500, desc: '', img: 'assets/img/bebidas/del-valle.jpg' },
-    { id: 24, cat: 'BEBIDAS', nombre: 'Agua saborizada', precio: 4500, desc: '', img: 'assets/img/bebidas/agua-saborizada.jpg' },
-    { id: 25, cat: 'BEBIDAS', nombre: 'Agua con gas', precio: 4500, desc: '', img: 'assets/img/bebidas/agua-con-gas.jpg' },
-    { id: 26, cat: 'BEBIDAS', nombre: 'Agua sin gas', precio: 3500, desc: '', img: 'assets/img/bebidas/agua-sin-gas.jpg' },
+    { id: 20, cat: 'BEBIDAS', nombre: 'Coca cola', precio: 4500, desc: '', img: '' },
+    { id: 21, cat: 'BEBIDAS', nombre: 'Sprite', precio: 4500, desc: '', img: '' },
+    { id: 22, cat: 'BEBIDAS', nombre: 'Quatro', precio: 4500, desc: '', img: '' },
+    { id: 23, cat: 'BEBIDAS', nombre: 'Del Valle', precio: 4500, desc: '', img: '' },
+    { id: 24, cat: 'BEBIDAS', nombre: 'Agua saborizada', precio: 4500, desc: '', img: '' },
+    { id: 25, cat: 'BEBIDAS', nombre: 'Agua con gas', precio: 4500, desc: '', img: '' },
+    { id: 26, cat: 'BEBIDAS', nombre: 'Agua sin gas', precio: 3500, desc: '', img: '' },
   ],
 
   // ---------------------------------------------------------------------------
@@ -84,12 +84,12 @@ window.MENU = {
       nombre: 'Elige las salsas', obligatorio: true, min: 1, max: 3,
       ayuda: 'Obligatorio · elige de 1 a 3',
       opciones: [
-        { nombre: 'Rosada', precio: 0, img: 'assets/img/salsas/salsa-rosada.jpg' },
-        { nombre: 'Queso azul', precio: 0, img: 'assets/img/salsas/salsa-queso-azul.jpg' },
-        { nombre: 'BBQ dulce', precio: 0, img: 'assets/img/salsas/salsa-bbq.jpg' },
-        { nombre: 'Ajo', precio: 0, img: 'assets/img/salsas/salsa-ajo.jpg' },
-        { nombre: 'Piña', precio: 0, img: 'assets/img/salsas/salsa-pina.jpg' },
-        { nombre: 'Ajo + tocino', precio: 0, img: 'assets/img/salsas/salsa-ajo-tocino.jpg' },
+        { nombre: 'Rosada', precio: 0 },
+        { nombre: 'Queso azul', precio: 0 },
+        { nombre: 'BBQ dulce', precio: 0 },
+        { nombre: 'Ajo', precio: 0 },
+        { nombre: 'Piña', precio: 0 },
+        { nombre: 'Ajo + tocino', precio: 0 },
         { nombre: 'Sin salsas', precio: 0 }
       ]
     },
@@ -113,13 +113,13 @@ window.MENU = {
       etiqueta: 'Bebidas',
       nombre: 'Elige algo de beber', max: 2, ayuda: 'Opcional',
       opciones: [
-        { nombre: 'Coca cola', precio: 4500, img: 'assets/img/bebidas/coca-cola.jpg' },
-        { nombre: 'Sprite', precio: 4500, img: 'assets/img/bebidas/sprite.jpg' },
-        { nombre: 'Quatro', precio: 4500, img: 'assets/img/bebidas/quatro.jpg' },
-        { nombre: 'Del Valle', precio: 4500, img: 'assets/img/bebidas/del-valle.jpg' },
-        { nombre: 'Agua saborizada', precio: 4500, img: 'assets/img/bebidas/agua-saborizada.jpg' },
-        { nombre: 'Agua con gas', precio: 4500, img: 'assets/img/bebidas/agua-con-gas.jpg' },
-        { nombre: 'Agua sin gas', precio: 3500, img: 'assets/img/bebidas/agua-sin-gas.jpg' }
+        { nombre: 'Coca cola', precio: 4500 },
+        { nombre: 'Sprite', precio: 4500 },
+        { nombre: 'Quatro', precio: 4500 },
+        { nombre: 'Del Valle', precio: 4500 },
+        { nombre: 'Agua saborizada', precio: 4500 },
+        { nombre: 'Agua con gas', precio: 4500 },
+        { nombre: 'Agua sin gas', precio: 3500 }
       ]
     }
   },
