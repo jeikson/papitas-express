@@ -71,7 +71,8 @@ assets/img/estacion-03-mixta.webp   ← el que usan los celulares de hoy (pesa l
 
 El cliente descarga solo uno: el WebP si su navegador lo entiende (todos los actuales),
 y el JPG si es viejo. **Si reemplazas una foto, sube las dos versiones** con el mismo
-nombre; si falta el WebP, el navegador nuevo seguirá mostrando la foto vieja.
+nombre. Si te falta el WebP, la app se da cuenta y muestra el JPG igual (no queda el
+hueco), pero pesa el doble.
 
 ## Domicilio
 

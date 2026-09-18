@@ -116,14 +116,39 @@
     var carga = prioridad
       ? 'loading="eager" fetchpriority="high"'
       : 'loading="lazy" fetchpriority="low"';
-    var etiqueta = '<img src="' + esc(p.img) + '" alt="' + esc(p.nombre) + '" ' + carga +
-      ' decoding="async" onload="this.classList.add(\'is-loaded\')" onerror="this.remove()">';
+    var etiqueta = '<img src="' + esc(p.img) + '" data-jpg="' + esc(p.img) + '" alt="' + esc(p.nombre) + '" ' + carga +
+      ' decoding="async" onload="this.classList.add(\'is-loaded\')">';
     // WebP pesa la mitad que el JPEG. Si el navegador no lo entiende (o el archivo no
     // está), usa el <img> de siempre: por eso van los dos.
     var webp = String(p.img).replace(/\.jpe?g$/i, '.webp');
     if (webp === p.img) return etiqueta;
     return '<picture><source srcset="' + esc(webp) + '" type="image/webp">' + etiqueta + '</picture>';
   }
+  // Si una foto no carga se prueba su .jpg y, si tampoco, se quita la imagen.
+  // Caso real: el .webp de un producto no está subido y el navegador moderno se
+  // queda con la tarjeta vacía (no vuelve solo al respaldo). Va en captura porque
+  // el error de un <img> no sube por el DOM.
+  function rescatarFoto(img) {
+    var jpg = img.getAttribute('data-jpg');
+    var pic = img.closest ? img.closest('picture') : null;
+    // Solo tiene sentido volver al .jpg si el intento fallido fue el .webp del
+    // <picture>. Si la que falló fue la propia foto (o ya se intentó), se quita.
+    var falloEraWebp = !!(pic && pic.querySelector('source[type="image/webp"]'));
+    if (!jpg || img.dataset.rescatado === '1' || !falloEraWebp) { img.remove(); return; }
+    img.dataset.rescatado = '1';
+    var nueva = document.createElement('img');
+    nueva.src = jpg;
+    nueva.alt = img.alt;
+    nueva.decoding = 'async';
+    nueva.setAttribute('data-jpg', jpg);
+    nueva.onload = function () { nueva.classList.add('is-loaded'); };
+    if (pic && pic.parentNode) pic.parentNode.replaceChild(nueva, pic); else img.replaceWith(nueva);
+  }
+  document.addEventListener('error', function (e) {
+    var img = e.target;
+    if (img && img.tagName === 'IMG') rescatarFoto(img);
+  }, true);
+
   function activarFotos(raiz) {
     $$('img', raiz || document).forEach(function (i) {
       if (i.complete && i.naturalWidth > 0) i.classList.add('is-loaded');
