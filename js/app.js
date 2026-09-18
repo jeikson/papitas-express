@@ -522,10 +522,10 @@
     var body = $('#drawerBody'), foot = $('#drawerFoot');
 
     if (st.enviado) {
-      $('#drawerTitle').textContent = 'Seguimiento';
+      $('#drawerTitle').textContent = 'Pedido enviado';
       $('#drawerMenu').hidden = true;
       foot.hidden = false;
-      body.innerHTML = vistaSeguimiento();
+      body.innerHTML = vistaEnviado();
       foot.innerHTML = '<button class="btn btn--wa btn--block" id="btnReabrir">' + ic('wa', 20) + 'Abrir WhatsApp</button>';
       return;
     }
@@ -649,29 +649,28 @@
       '<div class="err" id="e_' + id + '"></div></div>';
   }
 
-  /* ------------------------------------------------ seguimiento del pedido */
-  function vistaSeguimiento() {
+  /* ------------------------------------------- después de enviar la comanda */
+  // El estado del pedido lo maneja la tienda desde el WhatsApp: aquí solo se
+  // confirma el envío, se muestra la comanda y se ofrecen los respaldos
+  // (reabrir WhatsApp, copiar el texto, empezar otro pedido).
+  function vistaEnviado() {
     var e = st.enviado || {};
-    var pasos = [
-      { t: 'Pedido enviado', s: 'Te llevamos al WhatsApp de la tienda', on: true },
-      { t: 'Confirmando con la tienda', s: 'Ellos responden por el chat', now: true },
-      { t: 'En preparación', s: 'Tiempo estimado ' + (CFG.negocio.tiempoPreparacion || '25 a 35 min'), off: true },
-      { t: (e.cliente && e.cliente.entrega === 'punto') ? 'Listo para recoger' : 'En camino a tu dirección', s: 'Te avisamos por WhatsApp', off: true }
-    ];
-    return '<div class="bloque">' +
-      '<div class="bloque__h">' + ic('moto-status', 18) + 'Estado del pedido</div>' +
-      '<div class="linea-tiempo">' + pasos.map(function (p) {
-        var cls = p.on ? 'pt--on' : (p.now ? 'pt--now' : 'pt--off');
-        return '<div class="pt ' + cls + '"><span class="pt__linea"></span>' +
-          '<span class="pt__punto">' + (p.on ? ic('check', 14) : (p.now ? ic('clock', 14) : ic('scooter', 14))) + '</span>' +
-          '<span class="pt__txt"><strong>' + esc(p.t) + '</strong><span>' + esc(p.s) + '</span></span></div>';
-      }).join('') + '</div></div>' +
+    return '<div class="bloque"><div class="ok">' +
+        '<span class="ok__ico">' + ic('check-circle', 40) + '</span>' +
+        '<h3>¡Comanda enviada!</h3>' +
+        '<p>Tu pedido y tus datos llegaron al WhatsApp de la tienda. ' +
+        'Ellos te confirman el valor y el tiempo por ese mismo chat.</p>' +
+      '</div></div>' +
+
       '<div class="bloque"><div class="bloque__h">' + ic('receipt', 18) + 'Tu comanda</div>' +
       '<div class="pre">' + esc(e.mensaje || '') + '</div></div>' +
-      '<div class="bloque"><p class="bloque__sub" style="margin:0">¿No se abrió WhatsApp? Abre la comanda otra vez o cópiala y envíala manualmente al ' +
-      esc(CFG.negocio.telefonoVisible) + '.</p>' +
-      '<button class="btn btn--ghost btn--sm btn--block" id="btnCopiar" style="margin-top:12px">' + ic('copy', 18) + 'Copiar comanda</button>' +
-      '<button class="btn btn--ghost btn--sm btn--block" id="btnNuevo" style="margin-top:8px">Hacer otro pedido</button></div>';
+
+      '<div class="bloque"><p class="bloque__sub" style="margin:0">¿No se abrió WhatsApp? ' +
+      'Ábrelo otra vez, o copia la comanda y envíala al ' + esc(CFG.negocio.telefonoVisible) + '.</p>' +
+      '<button class="btn btn--ghost btn--sm btn--block" id="btnCopiar" style="margin-top:12px">' +
+        ic('copy', 18) + 'Copiar comanda</button>' +
+      '<button class="btn btn--ghost btn--sm btn--block" id="btnNuevo" style="margin-top:8px">' +
+        'Hacer otro pedido</button></div>';
   }
 
   /* ----------------------------------------------------------------- mensaje */

@@ -36,7 +36,6 @@ MAPA = {
     'clock': 'clock',
     'home': 'house',
     'scooter': 'bike',
-    'moto-status': 'bike',
     'store': 'store',
     'pin': 'map-pin',
     'wa': 'message-circle',

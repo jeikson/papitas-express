@@ -504,23 +504,6 @@ input::placeholder,textarea::placeholder{color:var(--muted)}
   padding:var(--s3) var(--s4);font-size:.85rem;font-weight:600;line-height:1.45;margin-bottom:var(--s3);
 }
 
-/* seguimiento (estilo Rappi) */
-.linea-tiempo{display:flex;flex-direction:column;gap:0}
-.pt{display:flex;gap:var(--s3);padding-bottom:var(--s4);position:relative}
-.pt:last-child{padding-bottom:0}
-.pt__punto{
-  width:26px;height:26px;border-radius:50%;background:var(--surface-2);color:var(--muted);
-  display:grid;place-items:center;flex:none;position:relative;z-index:1;
-}
-.pt__linea{position:absolute;left:13px;top:26px;bottom:0;width:2px;background:var(--line)}
-.pt:last-child .pt__linea{display:none}
-.pt--on .pt__punto{background:var(--ok);color:#fff}
-.pt--now .pt__punto{background:var(--cta);color:var(--ink);animation:latido 1.6s ease infinite}
-@keyframes latido{0%,100%{box-shadow:0 0 0 0 rgba(202,138,4,.5)}50%{box-shadow:0 0 0 7px rgba(202,138,4,0)}}
-.pt__txt strong{display:block;font-size:.95rem;font-weight:700}
-.pt__txt span{font-size:.84rem;color:var(--muted)}
-.pt--off .pt__txt strong{color:var(--muted)}
-
 .ok{text-align:center;padding:var(--s5) var(--s2)}
 .ok__ico{
   width:84px;height:84px;border-radius:50%;background:var(--ok-tint);color:var(--ok);
