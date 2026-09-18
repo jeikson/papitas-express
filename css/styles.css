@@ -326,8 +326,17 @@ h1,h2,h3,h4{margin:0;font-family:Outfit,Karla,system-ui,sans-serif;font-weight:7
 .sheet__body{overflow:auto;padding:0 0 var(--s4);flex:1;min-height:0;-webkit-overflow-scrolling:touch}
 .sheet__foot{
   flex:none;background:var(--surface);border-top:1px solid var(--line);
-  padding:var(--s3) var(--s4) calc(var(--s3) + var(--safe-b));display:flex;align-items:center;gap:var(--s3);
+  padding:var(--s3) var(--s4) calc(var(--s3) + var(--safe-b));
+  display:flex;align-items:center;gap:10px;
 }
+/* el pie de la ficha carga contador + papelera + botón: todo compacto para que
+   "Agregar · $ 30.000" quepa en UNA línea a 375px */
+.sheet__foot .cant{padding:3px}
+.sheet__foot .cant button{width:34px;height:34px}
+.sheet__foot .cant b{min-width:26px;font-size:1rem}
+.sheet__foot .foot-trash{width:42px;height:42px}
+.sheet__foot .btn{padding:13px 14px;gap:7px;min-width:0;white-space:nowrap}
+.sheet__foot .btn__tot{padding:2px 9px}
 .sheet__hero{position:relative;aspect-ratio:16/10;background:var(--surface-2);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--muted)}
 .sheet__hero img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 400ms ease}
 .sheet__hero img.is-loaded{opacity:1}

@@ -388,7 +388,8 @@
         '<button type="button" data-paso="1" aria-label="Agregar uno">' + ic('plus', 18) + '</button>' +
       '</span>' +
       (yaEnCarrito ? '<button type="button" class="foot-trash" id="btnQuitarProducto" aria-label="Quitar ' + esc(p.nombre) + ' del pedido">' + ic('trash', 20) + '</button>' : '') +
-      '<button class="btn btn--cta btn--block" id="btnAgregar">' + ic('cart', 18) + 'Agregar · ' + money(v.total) + '</button>';
+      '<button class="btn btn--cta btn--block" id="btnAgregar">' +
+        '<span>Agregar</span><b class="btn__tot">' + money(v.total) + '</b></button>';
 
     var ta = $('#notaProd');
     if (ta) ta.addEventListener('input', function () { draft.nota = ta.value; });
