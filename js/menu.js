@@ -85,12 +85,12 @@ window.MENU = {
       ayuda: 'Obligatorio · elige de 1 a 3',
       opciones: [
         { nombre: 'Rosada', precio: 0, img: 'assets/img/salsas/salsa-rosada.jpg' },
-        { nombre: 'Queso azul', precio: 0, img: 'assets/img/salsas/salsa-queso-azul.jpg' },
+        { nombre: 'Queso azul', precio: 0 },
         { nombre: 'BBQ dulce', precio: 0, img: 'assets/img/salsas/salsa-bbq.jpg' },
-        { nombre: 'Ajo', precio: 0, img: 'assets/img/salsas/salsa-ajo.jpg' },
+        { nombre: 'Ajo', precio: 0 },
         { nombre: 'Piña', precio: 0, img: 'assets/img/salsas/salsa-pina.jpg' },
-        { nombre: 'Ajo + tocino', precio: 0, img: 'assets/img/salsas/salsa-ajo-tocino.jpg' },
-        { nombre: 'Sin salsas', precio: 0 }
+        { nombre: 'Ajo + tocino', precio: 0 },
+        { nombre: 'Sin salsas', precio: 0, img: 'assets/img/salsas/salsa-sin.jpg' }
       ]
     },
     extras: {
