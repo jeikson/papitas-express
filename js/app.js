@@ -78,6 +78,9 @@
   function subtotal() { return st.items.reduce(function (a, it) { return a + it.precio * it.cant; }, 0); }
   function total() { return subtotal() + envio(); }
   function unidades() { return st.items.reduce(function (a, it) { return a + it.cant; }, 0); }
+  // en las tarjetas el nombre va corto: el nombre completo vive en la ficha
+  function nombreTarjeta(p) { return p.nombre.replace(/^Estaci[oó]n\s+/i, ''); }
+
   function cantidadDe(id) {
     return st.items.filter(function (x) { return x.id === id; }).reduce(function (a, x) { return a + x.cant; }, 0);
   }
@@ -155,15 +158,26 @@
     $$('[data-ciudad]').forEach(function (e) { e.textContent = CFG.negocio.ciudad; });
     $$('[data-tel]').forEach(function (e) { e.textContent = CFG.negocio.telefonoVisible; });
     if (!CFG.extras.buscar) $('#buscadorWrap').hidden = true;
-    $('#entregaEn').textContent = 'Entregar en · ' + CFG.negocio.ciudad +
-      (CFG.negocio.tiempoPreparacion ? ' · ' + CFG.negocio.tiempoPreparacion : '');
+    $('#entregaEn').textContent = 'Enviar a ' + CFG.negocio.ciudad +
+      (CFG.negocio.tiempoPreparacion ? ' · ' + CFG.negocio.tiempoPreparacion.replace(/ a /g, '-') : '');
 
     // todo <svg class="ic"> necesita viewBox: las rutas del sprite están en una
     // rejilla de 24x24 y sin viewBox se dibujan a tamaño nativo (se recortan)
     $$('svg.ic').forEach(function (s) { s.setAttribute('viewBox', '0 0 24 24'); });
 
     renderEstado(); renderHero(); renderChips(); renderDestacados(); renderGrid();
-    renderBarra(); renderNav(); eventos();
+    renderBarra(); renderNav(); eventos(); medirTopbar();
+
+    // la fila de categorías se pega justo debajo de la topbar: si su alto cambia
+    // (texto largo, otra tipografía, rotación), el offset se recalcula en vez de
+    // quedar con un número fijo desincronizado.
+    window.addEventListener('resize', medirTopbar);
+    if (window.ResizeObserver) new ResizeObserver(medirTopbar).observe($('.top'));
+  }
+
+  function medirTopbar() {
+    var t = $('.top');
+    if (t) document.documentElement.style.setProperty('--top-h', t.offsetHeight + 'px');
   }
 
   function renderHero() {
@@ -180,13 +194,15 @@
 
   function renderEstado() {
     var h = horario();
-    $('#estado').textContent = h.abierto ? 'Abierto · hasta ' + h12(h.fin) : 'Cerrado · abre ' + h12(h.ini);
+    // corto a propósito: el detalle del horario vive en el aviso de arriba
+    $('#estado').textContent = h.abierto ? 'Abierto' : 'Cerrado';
     $('#dot').className = 'dot ' + (h.abierto ? 'dot--ok' : 'dot--no');
     var av = $('#aviso');
     if (!h.abierto) {
       av.hidden = false; av.className = 'aviso aviso--cerrado';
-      av.innerHTML = ic('clock', 18) + '<span>Ahora estamos cerrados (atendemos de ' + h12(h.ini) + ' a ' + h12(h.fin) + '). ' +
-        (CFG.horario.bloquearFueraDeHorario ? 'Vuelve en nuestro horario para pedir.' : 'Puedes dejar tu pedido y lo confirmamos al abrir.') + '</span>';
+      av.innerHTML = ic('clock', 16) + '<span>' + (CFG.horario.bloquearFueraDeHorario
+        ? 'Cerrado · pedidos de ' + h12(h.ini) + ' a ' + h12(h.fin)
+        : 'Cerrado · abrimos ' + h12(h.ini) + ' · deja tu pedido') + '</span>';
     } else { av.hidden = true; }
   }
 
@@ -224,7 +240,7 @@
     $('#carrusel').innerHTML = dest.map(function (p) {
       return '<article class="ccard" data-id="' + p.id + '" role="button" tabindex="0">' +
         '<div class="ccard__img">' + foto(p) + '</div>' +
-        '<div class="ccard__body"><h3 class="ccard__name">' + esc(p.nombre) + '</h3>' +
+        '<div class="ccard__body"><h3 class="ccard__name">' + esc(nombreTarjeta(p)) + '</h3>' +
         '<div class="ccard__row"><span class="ccard__price">' + money(p.precio) + '</span>' + accionProducto(p) + '</div>' +
         '</div></article>';
     }).join('');
@@ -239,7 +255,7 @@
           (p.destacado ? '<span class="card__tag">Más pedida</span>' : '') +
         '</div>' +
         '<div class="card__body">' +
-          '<h3 class="card__name">' + esc(p.nombre) + '</h3>' +
+          '<h3 class="card__name">' + esc(nombreTarjeta(p)) + '</h3>' +
           (p.desc ? '<p class="card__desc">' + esc(p.desc) + '</p>' : '') +
           '<div class="card__foot' + (cantidadDe(p.id) ? ' card__foot--step' : '') + '">' +
             '<span class="card__price">' + money(p.precio) + '</span>' + accionProducto(p) + '</div>' +
@@ -292,6 +308,10 @@
     renderFicha();
     $('#sheet').hidden = false; $('#overlay').hidden = false;
     document.body.style.overflow = 'hidden';
+    // el cuerpo de la ficha conservaba el scroll de la vez anterior: al abrirla
+    // desde el pedido, el título quedaba fuera de la vista
+    var cuerpo = $('#sheetBody');
+    if (cuerpo) cuerpo.scrollTop = 0;
   }
   function cerrarFicha() {
     $('#sheet').hidden = true; $('#overlay').hidden = true; $('#sheetFoot').hidden = true;
@@ -319,7 +339,10 @@
     if (meta) h += '<div class="ficha__meta">' + meta + '</div>';
 
     if (p.ingredientes && p.ingredientes.length) {
-      h += '<ul class="ing">' + p.ingredientes.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>';
+      // párrafo de 2 líneas: en móvil los chips de ingredientes ocupaban media pantalla
+      h += '<div class="ing' + (draft.verIng ? ' ing--abierto' : '') + '" id="ingredientes">' +
+        '<b>Lleva: </b>' + esc(p.ingredientes.join(' · ')) + '</div>' +
+        '<button type="button" class="ing__mas" data-ing>' + (draft.verIng ? 'Ver menos' : 'Ver todos los ingredientes') + '</button>';
     } else if (p.desc) {
       h += '<p style="color:var(--muted);font-size:.92rem;margin:12px 0 0">' + esc(p.desc) + '</p>';
     }
@@ -830,6 +853,10 @@
         var ta0 = $('#notaProd'); if (ta0) draft.nota = ta0.value;
         draft.cant = Math.max(1, Math.min(CFG.extras.maxCantidad, draft.cant + Number(paso.dataset.paso)));
         renderFicha(); return;
+      }
+      if (t.closest('[data-ing]')) {
+        var ta1 = $('#notaProd'); if (ta1) draft.nota = ta1.value;
+        draft.verIng = !draft.verIng; renderFicha(); return;
       }
       var rec = t.closest('[data-rec]');
       if (rec) { alternarOpcion('extras', rec.dataset.rec); return; }
