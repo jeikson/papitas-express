@@ -20,6 +20,7 @@ window.MENU = {
       ingredientes: ['Papitas crocantes', 'Queso derretido', 'Carne de res desmechada con guiso',
         'Tocino caramelizado con BBQ dulce', 'Salsa rosada de la casa', 'Salsa a base de ajo y tocino ahumado'],
       img: 'assets/img/estacion-01-carne-desmechada.jpg',
+      destacado: true
     },
     {
       id: 3, cat: 'ESTACIONES', nombre: 'Estación Pulled Pork', precio: 27000,
@@ -27,6 +28,7 @@ window.MENU = {
       ingredientes: ['Papitas crocantes', 'Pulled pork caramelizado con BBQ dulce', 'Sour cream', 'Pico de gallo',
         'Guacamole', 'Salsa a base de ajo y tocino ahumado'],
       img: 'assets/img/estacion-06-pulled-pork.jpg',
+      destacado: true
     },
     {
       id: 4, cat: 'ESTACIONES', nombre: 'Estación Pollo Desmechado', precio: 27000,
@@ -34,6 +36,7 @@ window.MENU = {
       ingredientes: ['Papitas crocantes', 'Queso derretido', 'Pollo desmechado con guiso', 'Tocino caramelizado con BBQ dulce',
         'Sour cream', 'Maíz dulce', 'Salsa rosada de la casa', 'Salsa a base de ajo y tocino ahumado'],
       img: 'assets/img/estacion-05-pollo-desmechado.jpg',
+      destacado: true
     },
     {
       id: 5, cat: 'ESTACIONES', nombre: 'Estación Ranchera', precio: 27000,

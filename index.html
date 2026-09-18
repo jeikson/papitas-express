@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<!-- ============ iconos (sprite SVG, sin emojis como iconos) ============ -->
+<!-- ============ iconos (sprite SVG) ============ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <g id="i-cart"><path d="M6.5 8h11l-1 12h-9l-1-12Z"/><path d="M9.5 8V6.6a2.5 2.5 0 0 1 5 0V8"/></g>
@@ -25,26 +25,32 @@
     <g id="i-back"><path d="M19 12H5M12 19l-7-7 7-7"/></g>
     <g id="i-search"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5 16.2 16.2"/></g>
     <g id="i-clock"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.2V12l3.2 2"/></g>
+    <g id="i-home"><path d="M4 10.6 12 4l8 6.6V20H4z"/><path d="M9.6 20v-5.4h4.8V20"/></g>
     <g id="i-scooter"><circle cx="5.5" cy="17" r="2.4"/><circle cx="18.5" cy="17" r="2.4"/><path d="M8 17h8.2l-1.6-7.4H12"/><path d="M14.6 9.6H17l2.2 5.4"/><path d="M4 9.6h4.2"/></g>
     <g id="i-store"><path d="M3.6 9.4 5.2 4h13.6l1.6 5.4"/><path d="M4.6 9.4V20h14.8V9.4"/><path d="M9.6 20v-5.2h4.8V20"/></g>
+    <g id="i-pin"><path d="M12 21s6.5-5.6 6.5-10.4A6.5 6.5 0 0 0 5.5 10.6C5.5 15.4 12 21 12 21Z"/><circle cx="12" cy="10.4" r="2.3"/></g>
     <g id="i-wa"><path d="M20.5 11.8a8 8 0 0 1-11.9 7L4 20.4l1.6-4.5a8 8 0 1 1 14.9-4.1Z"/><path d="M8.9 9.4c0 3 2.4 5.4 5.4 5.4M9.2 9.5c-.3-.6.4-1 .8-.8l.7 1.2-.5.7c.5.9 1.1 1.5 2 2l.7-.5 1.2.7c.2.4-.2 1.1-.8.8"/></g>
     <g id="i-copy"><rect x="9" y="9" width="11" height="11" rx="2.4"/><path d="M15 9V6.4A2.4 2.4 0 0 0 12.6 4H6.4A2.4 2.4 0 0 0 4 6.4v6.2A2.4 2.4 0 0 0 6.4 15H9"/></g>
     <g id="i-trash"><path d="M4 7h16M9.5 7V4.8h5V7"/><path d="M6.5 7l1 13h9l1-13"/></g>
     <g id="i-flame"><path d="M12 3s4.6 4.4 4.6 8.2A4.6 4.6 0 0 1 12 16a4.6 4.6 0 0 1-4.6-4.8c0-1.8.9-2.9.9-2.9s1.9 2.7 3.7 2.7c0-2.7-2.6-3.6-2.6-6.3 0-.9.8-1.7 2.6-1.7Z"/><path d="M9.6 20.4h4.8"/></g>
     <g id="i-cash"><rect x="3" y="6.5" width="18" height="11" rx="2.4"/><circle cx="12" cy="12" r="2.4"/><path d="M6.5 10.5v3M17.5 10.5v3"/></g>
     <g id="i-card"><rect x="3" y="5.5" width="18" height="13" rx="2.4"/><path d="M3 10h18M6.5 14.5h3"/></g>
+    <g id="i-receipt"><path d="M6 3.5h12v17l-3-1.8-3 1.8-3-1.8-3 1.8Z"/><path d="M9 8.5h6M9 12.5h6"/></g>
+    <g id="i-moto-status"><circle cx="6" cy="17" r="2.2"/><circle cx="18" cy="17" r="2.2"/><path d="M8 17h8l-1.5-6.8H12M14.5 10.2H17l2 6"/></g>
   </defs>
 </svg>
 
 <header class="top">
   <div class="top__inner">
-    <div class="top__brand">
-      <img src="assets/img/logo-420.png" alt="Papitas Express" class="top__logo">
-      <div class="top__txt">
+    <button class="top__brand" id="btnDireccion" aria-label="Ver datos de entrega">
+      <img src="assets/img/logo-420.png" alt="" class="top__logo">
+      <span class="top__txt">
+        <span class="top__line"><svg class="ic ic--14"><use href="#i-pin"></use></svg>
+          <span id="entregaEn">Entregar en · Cartagena</span></span>
         <strong data-negocio>Papitas Express</strong>
         <small><span class="dot" id="dot"></span> <span id="estado">Cargando…</span></small>
-      </div>
-    </div>
+      </span>
+    </button>
     <button class="cartbtn" id="btnCart" aria-label="Ver mi pedido">
       <svg class="ic ic--20"><use href="#i-cart"></use></svg>
       <b id="cartCount">0</b>
@@ -54,9 +60,9 @@
 
 <div class="aviso" id="aviso" hidden></div>
 
-<main class="wrap">
+<!-- ============================== INICIO ============================== -->
+<main class="wrap" id="vistaInicio">
   <section class="hero">
-    <span class="hero__kicker"><svg class="ic ic--14"><use href="#i-flame"></use></svg> Papitas cargadas</span>
     <h1>¿Qué estación te llevas hoy?</h1>
     <p class="hero__sub" data-eslogan>Donde el viaje inicia con sabor</p>
     <div class="hero__chips" id="heroChips"></div>
@@ -71,8 +77,14 @@
   </div>
 
   <nav class="chips" id="chips" aria-label="Categorías"></nav>
-  <p class="meta" id="meta" hidden></p>
 
+  <section class="carrusel-seccion" id="secDestacados">
+    <h2 class="sec-titulo"><svg class="ic ic--18"><use href="#i-flame"></use></svg> Lo más pedido</h2>
+    <div class="carrusel" id="carrusel"></div>
+  </section>
+
+  <h2 class="sec-titulo" id="tituloMenu">Todo el menú</h2>
+  <p class="meta" id="meta" hidden></p>
   <section class="grid" id="grid"></section>
 
   <div class="estado-vacio" id="vacio" hidden>
@@ -90,39 +102,54 @@
   </footer>
 </main>
 
+<!-- ====================== BARRA DE CARRITO FLOTANTE ====================== -->
 <div class="barra" id="barra" hidden>
-  <div class="barra__tot">
-    <small id="barraItems">0 productos</small>
-    <strong id="barraTotal">$ 0</strong>
-  </div>
-  <button class="btn btn--cta" id="barraBtn">
-    Ver pedido <svg class="ic ic--18"><use href="#i-cart"></use></svg>
+  <button class="barra__ver" id="barraBtn">
+    <span class="barra__ico"><svg class="ic ic--20"><use href="#i-cart"></use></svg></span>
+    <span class="barra__txt">
+      <small id="barraItems">0 productos</small>
+      <strong id="barraTotal">$ 0</strong>
+    </span>
+    <span class="barra__cta">Ver pedido</span>
   </button>
 </div>
 
+<!-- ====================== NAVEGACIÓN INFERIOR ====================== -->
+<nav class="nav" id="nav" aria-label="Navegación principal">
+  <button class="nav__item nav__item--on" data-vista="inicio">
+    <svg class="ic ic--24"><use href="#i-home"></use></svg><span>Inicio</span>
+  </button>
+  <button class="nav__item" data-vista="buscar">
+    <svg class="ic ic--24"><use href="#i-search"></use></svg><span>Buscar</span>
+  </button>
+  <button class="nav__item" data-vista="pedido">
+    <span class="nav__wrap"><svg class="ic ic--24"><use href="#i-receipt"></use></svg>
+      <b class="nav__badge" id="navBadge" hidden>0</b></span><span>Mi pedido</span>
+  </button>
+</nav>
+
 <div class="overlay" id="overlay" hidden></div>
 
-<!-- ficha de producto -->
+<!-- ========================= FICHA DE PRODUCTO ========================= -->
 <section class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="sheet__grip"></div>
   <div class="sheet__body" id="sheetBody"></div>
   <footer class="sheet__foot" id="sheetFoot" hidden></footer>
 </section>
 
-<!-- carrito / checkout -->
-<section class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
-  <header class="drawer__head">
-    <button class="iconbtn" id="drawerBack" hidden aria-label="Volver al pedido">
+<!-- ====================== PEDIDO (pantalla completa) ====================== -->
+<section class="pantalla" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <header class="pantalla__head">
+    <button class="iconbtn" id="drawerClose" aria-label="Volver al menú">
       <svg class="ic ic--18"><use href="#i-back"></use></svg>
     </button>
-    <h2 id="drawerTitle">Mi pedido</h2>
-    <button class="iconbtn" id="drawerClose" aria-label="Cerrar">
-      <svg class="ic ic--18"><use href="#i-x"></use></svg>
+    <h2 id="drawerTitle">Tu pedido</h2>
+    <button class="iconbtn" id="drawerMenu" aria-label="Ver el menú">
+      <svg class="ic ic--18"><use href="#i-cart"></use></svg>
     </button>
   </header>
-  <div class="steps" id="steps" hidden></div>
-  <div class="drawer__body" id="drawerBody"></div>
-  <footer class="drawer__foot" id="drawerFoot" hidden></footer>
+  <div class="pantalla__body" id="drawerBody"></div>
+  <footer class="pantalla__foot" id="drawerFoot" hidden></footer>
 </section>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
