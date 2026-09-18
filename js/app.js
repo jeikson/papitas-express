@@ -19,7 +19,7 @@
     });
   };
   var ic = function (name, size) {
-    return '<svg class="ic' + (size ? ' ic--' + size : '') + '" aria-hidden="true"><use href="#i-' + name + '"></use></svg>';
+    return '<svg class="ic' + (size ? ' ic--' + size : '') + '" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-' + name + '"></use></svg>';
   };
 
   var st = cargar();
@@ -158,6 +158,10 @@
     $('#entregaEn').textContent = 'Entregar en · ' + CFG.negocio.ciudad +
       (CFG.negocio.tiempoPreparacion ? ' · ' + CFG.negocio.tiempoPreparacion : '');
 
+    // todo <svg class="ic"> necesita viewBox: las rutas del sprite están en una
+    // rejilla de 24x24 y sin viewBox se dibujan a tamaño nativo (se recortan)
+    $$('svg.ic').forEach(function (s) { s.setAttribute('viewBox', '0 0 24 24'); });
+
     renderEstado(); renderHero(); renderChips(); renderDestacados(); renderGrid();
     renderBarra(); renderNav(); eventos();
   }
@@ -233,12 +237,12 @@
       return '<article class="card" data-id="' + p.id + '" role="button" tabindex="0" aria-label="' + esc(p.nombre + ', ' + money(p.precio)) + '">' +
         '<div class="card__img">' + foto(p) +
           (p.destacado ? '<span class="card__tag">Más pedida</span>' : '') +
-          '<span class="card__ptag">' + money(p.precio) + '</span>' +
         '</div>' +
         '<div class="card__body">' +
           '<h3 class="card__name">' + esc(p.nombre) + '</h3>' +
           (p.desc ? '<p class="card__desc">' + esc(p.desc) + '</p>' : '') +
-          '<div class="card__foot"><span class="card__price">' + money(p.precio) + '</span>' + accionProducto(p) + '</div>' +
+          '<div class="card__foot' + (cantidadDe(p.id) ? ' card__foot--step' : '') + '">' +
+            '<span class="card__price">' + money(p.precio) + '</span>' + accionProducto(p) + '</div>' +
         '</div></article>';
     }).join('');
     $('#vacio').hidden = list.length > 0;
