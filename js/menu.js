@@ -79,7 +79,7 @@ window.MENU = {
     salsas: {
       etiqueta: 'Salsas',
       nombre: 'Elige las salsas', obligatorio: true, min: 1, max: 3,
-      ayuda: 'Obligatorio · escoge hasta 3',
+      ayuda: 'Obligatorio · elige de 1 a 3',
       opciones: [
         { nombre: 'BBQ', precio: 0 }, { nombre: 'Mostaza', precio: 0 },
         { nombre: 'Salsa de la casa', precio: 0 }, { nombre: 'Rosada', precio: 0 },
