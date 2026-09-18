@@ -69,6 +69,78 @@ window.MENU = {
     { id: 26, cat: 'BEBIDAS', nombre: 'Agua sin gas', precio: 3500, desc: '', img: '' },
   ],
 
+  // ---------------------------------------------------------------------------
+  // GRUPOS DE OPCIONES (patrón Rappi): obligatorio / máximos / extras con precio
+  // obligatorio: true  → hay que elegir al menos min antes de agregar
+  // max: n             → no deja marcar más de n (0 = sin límite)
+  // Puedes darle a un producto su propia lista con `grupos: ['salsas','extras']`.
+  // ---------------------------------------------------------------------------
+  grupos: {
+    salsas: {
+      etiqueta: 'Salsas',
+      nombre: 'Elige las salsas', obligatorio: true, min: 1, max: 3,
+      ayuda: 'Obligatorio · escoge hasta 3',
+      opciones: [
+        { nombre: 'BBQ', precio: 0 }, { nombre: 'Mostaza', precio: 0 },
+        { nombre: 'Salsa de la casa', precio: 0 }, { nombre: 'Rosada', precio: 0 },
+        { nombre: 'Piña', precio: 0 }, { nombre: 'Tomate', precio: 0 },
+        { nombre: 'Ajo + tocino', precio: 0 }, { nombre: 'Sin salsas', precio: 0 }
+      ]
+    },
+    extras: {
+      etiqueta: 'Extras',
+      nombre: 'Elige tus extras', max: 11, ayuda: 'Opcional · hasta 11',
+      opciones: [
+        { nombre: 'Carne desmechada', precio: 7000 },
+        { nombre: 'Tocino caramelizado', precio: 6000 },
+        { nombre: 'Tocino al barril en BBQ', precio: 8500 },
+        { nombre: 'Chorizo santarrosano', precio: 6500 },
+        { nombre: 'Bombón de pollo apanado', precio: 9500 },
+        { nombre: 'Queso', precio: 7000 },
+        { nombre: 'Huevo de codorniz x5', precio: 6500 },
+        { nombre: 'Pollo desmechado', precio: 7000 },
+        { nombre: 'Salchicha caramelizada', precio: 6000 },
+        { nombre: 'Pico de gallo', precio: 3000 },
+        { nombre: 'Guacamole', precio: 3000 },
+        { nombre: 'Sour cream', precio: 3000 },
+        { nombre: 'Maíz dulce', precio: 3000 },
+        { nombre: 'Queso costeño', precio: 3000 }
+      ]
+    },
+    bebidas: {
+      etiqueta: 'Bebidas',
+      nombre: 'Elige algo de beber', max: 2, ayuda: 'Opcional · hasta 2',
+      opciones: [
+        { nombre: 'Mr Tea 500 ml', precio: 7700 },
+        { nombre: 'Pepsi 400 ml', precio: 7700 },
+        { nombre: 'Colombiana 400 ml', precio: 7700 },
+        { nombre: 'Agua 500 ml', precio: 5000 },
+        { nombre: 'Agua frutos verdes 1.5 L', precio: 11200 },
+        { nombre: 'Colombiana 1.5 L', precio: 11200 },
+        { nombre: 'Manzana 1.5 L', precio: 11200 }
+      ]
+    },
+    preferencias: {
+      etiqueta: 'Preferencias',
+      nombre: 'Preferencias', max: 0, ayuda: 'Opcional',
+      opciones: [
+        { nombre: 'Salsas aparte', precio: 0 }, { nombre: 'Sin picante', precio: 0 },
+        { nombre: 'Bien crocantes', precio: 0 }, { nombre: 'Empaque aparte', precio: 0 },
+        { nombre: 'Servilletas y cubiertos', precio: 0 }
+      ]
+    }
+  },
+
+  // Grupos que se muestran por categoría (un producto puede sobrescribirlo con `grupos`)
+  gruposPorCategoria: {
+    ESTACIONES: ['salsas', 'extras', 'bebidas', 'preferencias'],
+    BEBIDAS: ['preferencias']
+  },
+
+  // Bloque "Tus opciones recomendadas" de la ficha (nombres del grupo `extras`)
+  recomendados: ['Chorizo santarrosano', 'Tocino al barril en BBQ'],
+
+  // Compatibilidad / uso directo en otras partes
   adiciones: [
     { id: 101, nombre: 'Tocino caramelizado', precio: 4000 },
     { id: 102, nombre: 'Carne desmechada', precio: 5000 },
@@ -85,6 +157,9 @@ window.MENU = {
   salsas: ['Rosada de la casa', 'Queso azul', 'BBQ dulce', 'Ajo', 'Piña', 'Ajo + tocino', 'Sin salsa'],
 
   opciones: ['Salsas aparte', 'Sin picante', 'Bien crocantes', 'Empaque aparte', 'Servilletas y cubiertos'],
+
+  // Calificaciones de ejemplo (Rappi las muestra en la ficha). Borra para ocultarlas.
+  calificaciones: { pct: 87, total: 434 },
 
   // Zonas de domicilio. Con CONFIG.domicilio.usarBarrios = false esta lista no se usa.
   barrios: [
