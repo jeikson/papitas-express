@@ -109,9 +109,20 @@
     clearTimeout(toast._t);
     toast._t = setTimeout(function () { t.hidden = true; }, 2600);
   }
-  function foto(p) {
+  function foto(p, prioridad) {
     if (!p.img) return ic(p.cat === 'BEBIDAS' ? 'store' : 'flame', 34);
-    return '<img src="' + esc(p.img) + '" alt="' + esc(p.nombre) + '" loading="lazy" decoding="async" onload="this.classList.add(\'is-loaded\')" onerror="this.remove()">';
+    // Las dos primeras tarjetas son lo primero que se ve: se piden de una. El resto
+    // se pide cuando el cliente baja, así el celular no descarga 7 fotos para abrir.
+    var carga = prioridad
+      ? 'loading="eager" fetchpriority="high"'
+      : 'loading="lazy" fetchpriority="low"';
+    var etiqueta = '<img src="' + esc(p.img) + '" alt="' + esc(p.nombre) + '" ' + carga +
+      ' decoding="async" onload="this.classList.add(\'is-loaded\')" onerror="this.remove()">';
+    // WebP pesa la mitad que el JPEG. Si el navegador no lo entiende (o el archivo no
+    // está), usa el <img> de siempre: por eso van los dos.
+    var webp = String(p.img).replace(/\.jpe?g$/i, '.webp');
+    if (webp === p.img) return etiqueta;
+    return '<picture><source srcset="' + esc(webp) + '" type="image/webp">' + etiqueta + '</picture>';
   }
   function activarFotos(raiz) {
     $$('img', raiz || document).forEach(function (i) {
@@ -348,9 +359,9 @@
 
   function renderGrid() {
     var list = filtrar();
-    $('#grid').innerHTML = list.map(function (p) {
+    $('#grid').innerHTML = list.map(function (p, i) {
       return '<article class="card" data-id="' + p.id + '" role="button" tabindex="0" aria-label="' + esc(p.nombre + ', ' + money(p.precio)) + '">' +
-        '<div class="card__img">' + foto(p) + '</div>' +
+        '<div class="card__img">' + foto(p, i < 2) + '</div>' +
         '<div class="card__body">' +
           '<h3 class="card__name">' + esc(nombreTarjeta(p)) + '</h3>' +
           (p.desc ? '<p class="card__desc">' + esc(p.desc) + '</p>' : '') +

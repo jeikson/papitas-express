@@ -120,6 +120,9 @@ h1,h2,h3,h4{margin:0;font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight
 }
 @media (max-width:374px){ #instalarSub{display:none} }
 
+/* <picture> es solo un envoltorio: no debe afectar el diseño */
+picture{display:contents}
+
 /* ------------------------------------------------------------------ layout */
 .wrap{max-width:1120px;margin:0 auto;padding:0 var(--s4)}
 

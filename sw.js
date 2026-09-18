@@ -9,7 +9,7 @@
      · lo que no es del propio sitio (wa.me, Instagram) nunca se intercepta.
    Para publicar cambios: sube el número de VERSION y de ?v= en index.html. */
 
-const VERSION = 'pe-28';
+const VERSION = 'pe-30';
 const CACHE = VERSION;
 
 // núcleo de la app: sin esto no abre

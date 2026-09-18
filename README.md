@@ -60,6 +60,19 @@ productos: [
 - `salsas` y `opciones`: listas de selección múltiple (sin costo).
 - `categorias`: el orden de las pestañas. Si cambias una categoría, ajústala también en los productos.
 
+## Las fotos van en dos formatos
+
+Cada foto de producto está guardada dos veces, con el mismo nombre:
+
+```
+assets/img/estacion-03-mixta.jpg    ← respaldo (cualquier navegador)
+assets/img/estacion-03-mixta.webp   ← el que usan los celulares de hoy (pesa la mitad)
+```
+
+El cliente descarga solo uno: el WebP si su navegador lo entiende (todos los actuales),
+y el JPG si es viejo. **Si reemplazas una foto, sube las dos versiones** con el mismo
+nombre; si falta el WebP, el navegador nuevo seguirá mostrando la foto vieja.
+
 ## Domicilio
 
 - **Valor fijo**: `domicilio: { activo: true, usarBarrios: false, valorFijo: 6000 }`.
@@ -160,6 +173,18 @@ Cualquier hosting estático:
 - **Netlify / Cloudflare Pages**: arrastra la carpeta o conecta el repo. Sin build, sin comando.
 - **GitHub Pages**: sube los archivos y activa Pages sobre la rama.
 - Recomendado: HTTPS siempre (WhatsApp y algunos navegadores lo requieren para abrir enlaces externos sin avisos).
+
+## Archivos de configuración del hosting
+
+- **`_headers`** — reglas de caché y seguridad para **Netlify y Cloudflare Pages**
+  (el hosting lo lee solo). El `index.html` y el `sw.js` nunca se guardan en caché,
+  así el cliente recibe las versiones nuevas; las fotos se guardan 7 días y las
+  tipografías un año.
+- **`.htaccess`** — lo mismo para **hosting Apache / cPanel** (Hostinger, GoDaddy,
+  Hostgator…): compresión, tipo de archivo del manifest y tiempos de caché.
+  En Netlify/Cloudflare se ignora, no molesta.
+
+Ninguno de los dos hay que tocarlo a mano.
 
 ## Detalles de implementación
 
