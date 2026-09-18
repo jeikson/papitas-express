@@ -157,6 +157,7 @@
     $$('[data-eslogan]').forEach(function (e) { e.textContent = CFG.negocio.eslogan || ''; });
     $$('[data-ciudad]').forEach(function (e) { e.textContent = CFG.negocio.ciudad; });
     $$('[data-tel]').forEach(function (e) { e.textContent = CFG.negocio.telefonoVisible; });
+    $$('[data-instagram]').forEach(function (e) { e.textContent = CFG.negocio.instagram; });
     if (!CFG.extras.buscar) $('#buscadorWrap').hidden = true;
     $('#entregaEn').textContent = 'Enviar a ' + CFG.negocio.ciudad +
       (CFG.negocio.tiempoPreparacion ? ' · ' + CFG.negocio.tiempoPreparacion.replace(/ a /g, '-') : '');
@@ -165,7 +166,7 @@
     // rejilla de 24x24 y sin viewBox se dibujan a tamaño nativo (se recortan)
     $$('svg.ic').forEach(function (s) { s.setAttribute('viewBox', '0 0 24 24'); });
 
-    renderEstado(); renderHero(); renderChips(); renderDestacados(); renderGrid();
+    renderEstado(); renderHero(); renderChips(); renderGrid();
     renderBarra(); renderNav(); eventos(); medirTopbar();
 
     // la fila de categorías se pega justo debajo de la topbar: si su alto cambia
@@ -234,26 +235,11 @@
       '<button type="button" data-card-mas="' + p.id + '" aria-label="Agregar uno">' + ic('plus', 18) + '</button></span>';
   }
 
-  function renderDestacados() {
-    var dest = MENU.productos.filter(function (p) { return p.destacado; });
-    if (!dest.length) { $('#secDestacados').hidden = true; return; }
-    $('#carrusel').innerHTML = dest.map(function (p) {
-      return '<article class="ccard" data-id="' + p.id + '" role="button" tabindex="0">' +
-        '<div class="ccard__img">' + foto(p) + '</div>' +
-        '<div class="ccard__body"><h3 class="ccard__name">' + esc(nombreTarjeta(p)) + '</h3>' +
-        '<div class="ccard__row"><span class="ccard__price">' + money(p.precio) + '</span>' + accionProducto(p) + '</div>' +
-        '</div></article>';
-    }).join('');
-    activarFotos($('#carrusel'));
-  }
-
   function renderGrid() {
     var list = filtrar();
     $('#grid').innerHTML = list.map(function (p) {
       return '<article class="card" data-id="' + p.id + '" role="button" tabindex="0" aria-label="' + esc(p.nombre + ', ' + money(p.precio)) + '">' +
-        '<div class="card__img">' + foto(p) +
-          (p.destacado ? '<span class="card__tag">Más pedida</span>' : '') +
-        '</div>' +
+        '<div class="card__img">' + foto(p) + '</div>' +
         '<div class="card__body">' +
           '<h3 class="card__name">' + esc(nombreTarjeta(p)) + '</h3>' +
           (p.desc ? '<p class="card__desc">' + esc(p.desc) + '</p>' : '') +
@@ -293,7 +279,7 @@
       el.classList.remove('is-bump'); void el.offsetWidth; el.classList.add('is-bump');
     });
   }
-  function refrescarInicio() { renderChips(); renderDestacados(); renderGrid(); renderBarra(); }
+  function refrescarInicio() { renderChips(); renderGrid(); renderBarra(); }
 
   /* -------------------------------------------------------- ficha del producto */
   function abrirFicha(id, editando) {
@@ -330,13 +316,6 @@
       '<div class="sheet__pad">' +
       '<h2 class="sheet__title" id="sheetTitle">' + esc(p.nombre) + '</h2>' +
       '<div class="sheet__price">' + money(p.precio) + '</div>';
-
-    var meta = '';
-    if (p.destacado) meta += '<span class="pill-badge">' + ic('flame', 14) + 'Muy pedido</span>';
-    if (MENU.calificaciones && MENU.calificaciones.pct) {
-      meta += '<span class="pill-rating">' + ic('star', 14) + MENU.calificaciones.pct + '% · ' + MENU.calificaciones.total + ' calificaciones</span>';
-    }
-    if (meta) h += '<div class="ficha__meta">' + meta + '</div>';
 
     if (p.ingredientes && p.ingredientes.length) {
       // párrafo de 2 líneas: en móvil los chips de ingredientes ocupaban media pantalla
@@ -826,7 +805,7 @@
       renderChips(); renderGrid();
     });
 
-    ['#grid', '#carrusel'].forEach(function (sel2) {
+    ['#grid'].forEach(function (sel2) {
       $(sel2).addEventListener('click', function (e) {
         var mas = e.target.closest('[data-card-mas]'), menos = e.target.closest('[data-card-menos]');
         if (mas) { e.stopPropagation(); cambiarDesdeTarjeta(Number(mas.dataset.cardMas), 1); return; }

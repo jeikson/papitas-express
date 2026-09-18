@@ -9,7 +9,7 @@ window.CONFIG = {
     // Número que RECIBE la comanda. Formato internacional, sin + y sin espacios.
     whatsapp: '573007107250',
     telefonoVisible: '300 710 7250',
-    instagram: 'papitas.express',
+    instagram: 'Papitass.express',
     ciudad: 'Medellín',
     // Se muestra como referencia de entrega en la cabecera
     tiempoPreparacion: '25 a 35 min',

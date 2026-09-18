@@ -151,34 +151,6 @@ h1,h2,h3,h4{margin:0;font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight
 .sec-titulo .ic{color:var(--primary)}
 .meta{padding:0 2px var(--s3);font-size:.82rem;color:var(--muted);font-weight:600}
 
-/* -------------------------------------------------- carrusel "lo más pedido" */
-.carrusel-seccion{margin-top:var(--s2)}
-.carrusel{
-  display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px;
-  mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent);
-  -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent);
-  scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -2px;
-}
-.carrusel::-webkit-scrollbar{display:none}
-.ccard{
-  flex:none;width:138px;background:var(--surface);border-radius:var(--r-lg);overflow:hidden;
-  box-shadow:var(--sh-1);text-align:left;scroll-snap-align:start;
-  transition:transform var(--t),box-shadow var(--t);
-}
-.ccard:hover{transform:translateY(-3px);box-shadow:var(--sh-2)}
-.ccard__img{aspect-ratio:16/9;background:var(--surface-2);position:relative;overflow:hidden;display:grid;place-items:center;color:var(--muted)}
-.ccard__img img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 400ms ease}
-.ccard__img img.is-loaded{opacity:1}
-.ccard__body{padding:7px 9px 9px}
-.ccard__name{font-size:.8rem;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ccard__row{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:6px;flex-wrap:nowrap}
-/* el carrusel es aún más angosto que la tarjeta de la grilla:
-   contador y botón compactos para que el precio nunca se parta */
-.ccard__price{font-family:Fredoka,sans-serif;font-weight:600;font-size:.9rem;white-space:nowrap}
-.ccard .card__add{width:34px;height:34px}
-.ccard .stepper-mini button{width:28px;height:28px}
-.ccard .stepper-mini b{min-width:18px;font-size:.88rem}
-
 /* --------------------------------------------------------------- tarjetas */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
 .card{
@@ -198,11 +170,6 @@ h1,h2,h3,h4{margin:0;font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight
 .card__img::after{
   content:'';position:absolute;inset:auto 0 0 0;height:46%;pointer-events:none;
   background:linear-gradient(to top,rgba(69,10,10,.5),rgba(69,10,10,0));
-}
-.card__tag{
-  position:absolute;top:10px;left:10px;z-index:2;background:var(--cta);color:var(--ink);
-  font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
-  padding:5px 10px;border-radius:var(--r-pill);box-shadow:0 2px 8px rgba(69,10,10,.22);
 }
 .card__body{padding:10px;display:flex;flex-direction:column;gap:3px;flex:1}
 .card__name{font-size:.9rem;font-weight:600;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -581,13 +548,13 @@ input::placeholder,textarea::placeholder{color:var(--muted)}
 .foot-trash:active{transform:scale(.92)}
 
 /* shimmer de carga de fotos */
-.card__img::before,.ccard__img::before,.sheet__hero::before,.item__img::before{
+.card__img::before,.sheet__hero::before,.item__img::before{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(100deg,var(--surface-2) 30%,#f4e8dc 50%,var(--surface-2) 70%);
   background-size:200% 100%;animation:shine 1.5s linear infinite;
 }
-.card__img img,.ccard__img img,.sheet__hero img,.item__img img{position:relative;z-index:1}
-.card__img:has(img.is-loaded)::before,.ccard__img:has(img.is-loaded)::before,
+.card__img img,.sheet__hero img,.item__img img{position:relative;z-index:1}
+.card__img:has(img.is-loaded)::before,
 .sheet__hero:has(img.is-loaded)::before,.item__img:has(img.is-loaded)::before{animation:none;opacity:0}
 @keyframes shine{to{background-position:-200% 0}}
 
@@ -602,7 +569,6 @@ input::placeholder,textarea::placeholder{color:var(--muted)}
   main.wrap{padding:0 var(--s6)}
   .top__inner{padding:0 var(--s6)}
   .buscar{max-width:560px;margin-top:var(--s6)}
-  .ccard{width:210px}
   .hero__sub{display:block}
   .card__desc{display:-webkit-box;font-size:.8rem;line-height:1.4;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .card__img{aspect-ratio:4/3}
