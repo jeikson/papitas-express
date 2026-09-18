@@ -63,7 +63,7 @@ h1,h2,h3,h4{margin:0;font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight
   display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
 }
 .top__brand{display:flex;align-items:center;gap:11px;min-width:0;text-align:left}
-.top__logo{width:38px;height:38px;object-fit:contain;border-radius:9px;background:var(--surface-2);padding:2px}
+.top__logo{width:auto;height:34px;object-fit:contain;background:none;border-radius:0;padding:0}
 .top__txt{display:flex;flex-direction:column;min-width:0}
 .top__line{display:flex;align-items:center;gap:4px;font-size:.68rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top__fila{display:flex;align-items:baseline;gap:6px;min-width:0}
@@ -215,7 +215,7 @@ h1,h2,h3,h4{margin:0;font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight
 .estado-vacio p{font-size:.9rem;margin:0 0 var(--s4)}
 
 .pie{padding:var(--s8) 0 var(--s8);text-align:center;color:var(--muted);font-size:.88rem}
-.pie__logo{width:132px;margin:0 auto var(--s3);opacity:.95}
+.pie__logo{width:170px;margin:0 auto var(--s3);background:none}
 .pie__nota{font-size:.8rem;max-width:430px;margin:10px auto 0;line-height:1.6}
 .pie strong{color:var(--ink-2)}
 
