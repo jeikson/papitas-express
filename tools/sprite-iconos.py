@@ -47,6 +47,8 @@ MAPA = {
     'card': 'credit-card',
     'receipt': 'receipt',
     'utensils': 'utensils',
+    'download': 'download',
+    'smartphone': 'smartphone',
 }
 
 # atributos que definen la geometría; el resto (stroke, fill, class…) lo pone el CSS

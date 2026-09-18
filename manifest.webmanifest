@@ -1,0 +1,24 @@
+{
+  "name": "Papitas Express — Pedidos",
+  "short_name": "Papitas Express",
+  "description": "Papitas cargadas en Medellín. Arma tu pedido y envíalo al WhatsApp de la tienda.",
+  "lang": "es-CO",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#fdf7f0",
+  "theme_color": "#dc2626",
+  "categories": ["food", "shopping"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Ver el menú", "short_name": "Menú", "url": "./?atajo=menu" },
+    { "name": "Mi pedido", "short_name": "Pedido", "url": "./?atajo=pedido" }
+  ]
+}

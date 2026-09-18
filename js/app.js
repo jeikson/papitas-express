@@ -150,6 +150,62 @@
     return out;
   }
 
+  /* ------------------------------------------------------------ app instalable */
+  // La app se puede instalar desde el navegador (PWA). Chrome/Android avisan con
+  // `beforeinstallprompt`; iOS no lo implementa, así que ahí se explica el paso a mano.
+  var promptInstalar = null;
+
+  function instalarVisible() {
+    var caja = $('#instalar');
+    if (!caja) return;
+    if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return; // ya instalada
+    if (window.navigator.standalone) return;                                                 // iOS instalada
+    if (localStorage.getItem('pe_instalar_cerrado') === '1') return;                          // dijo "ahora no"
+    caja.hidden = false;
+  }
+
+  function montarInstalar() {
+    var caja = $('#instalar'), btn = $('#instalarBtn'), sub = $('#instalarSub'), x = $('#instalarX');
+    if (!caja || !btn || !x) return;
+
+    var esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (esIOS) {
+      sub.textContent = 'Compartir → Añadir a inicio';
+      btn.hidden = true;
+      instalarVisible();
+    }
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      if (esIOS) return;   // en iOS el paso es a mano: no lo pisa el aviso de Chrome
+      promptInstalar = e;
+      btn.hidden = false;
+      sub.textContent = 'Ábrela como cualquier app';
+      instalarVisible();
+    });
+
+    window.addEventListener('appinstalled', function () {
+      caja.hidden = true;
+      toast('Listo, ya tienes la app instalada', 'check');
+    });
+
+    btn.addEventListener('click', function () {
+      if (!promptInstalar) return;
+      promptInstalar.prompt();
+      promptInstalar.userChoice.then(function (r) {
+        if (r && r.outcome === 'accepted') { caja.hidden = true; toast('Instalando la app…', 'check'); }
+        promptInstalar = null;
+      });
+    });
+
+    x.addEventListener('click', function () {
+      caja.hidden = true;
+      localStorage.setItem('pe_instalar_cerrado', '1');
+    });
+  }
+
   /* ---------------------------------------------------------------- arranque */
   function init() {
     document.title = CFG.negocio.nombre + ' — Pedidos';
@@ -171,7 +227,10 @@
     $$('svg.ic').forEach(function (s) { s.setAttribute('viewBox', '0 0 24 24'); });
 
     renderEstado(); renderHero(); renderChips(); renderGrid();
-    renderBarra(); renderNav(); eventos(); medirTopbar();
+    renderBarra(); renderNav(); eventos(); medirTopbar(); montarInstalar();
+
+    // atajos del icono instalado (manifest.shortcuts): ?atajo=pedido abre el pedido
+    if (/[?&]atajo=pedido/.test(location.search)) setTimeout(abrirPedido, 120);
 
     // la fila de categorías se pega justo debajo de la topbar: si su alto cambia
     // (texto largo, otra tipografía, rotación), el offset se recalcula en vez de

@@ -11,11 +11,13 @@ Tienda web para tomar pedidos: el cliente arma su carrito, deja sus datos y **la
 ```
 papitas-express/
 ├── index.html            # estructura de la página
+├── manifest.webmanifest  # datos de la app instalable (nombre, iconos, colores)
+├── sw.js                 # service worker: permite instalarla y abrirla sin datos
 ├── css/styles.css        # estilos (mobile first)
 ├── js/config.js          # CONFIGURACIÓN: WhatsApp, horario, domicilio, pagos
 ├── js/menu.js            # MENÚ: productos, precios, adiciones, salsas, barrios
 ├── js/app.js             # lógica del carrito y del mensaje
-└── assets/img/           # logo y fotos de los productos
+└── assets/               # logo, iconos de la app y fotos de los productos
 ```
 
 ## Probarlo en local
@@ -26,7 +28,8 @@ python3 -m http.server 8899
 # abre http://localhost:8899
 ```
 
-También funciona con doble clic en `index.html` (todo es local, sin peticiones externas).
+También funciona con doble clic en `index.html` (todo es local, sin peticiones externas),
+pero así **no** se puede instalar: para eso hay que servirla por HTTPS.
 
 ## Cambiar el número de WhatsApp
 
@@ -118,6 +121,37 @@ Domicilio: $ 3.000
 Al enviar se abre `https://wa.me/<número>?text=<comanda>`: sale del WhatsApp del cliente (o WhatsApp Web en computador) con el mensaje listo y el cliente solo da "enviar". La tienda responde por ahí mismo, así que queda la conversación completa.
 
 **Si más adelante quieres que salga solo** (sin que el cliente dé enviar), hay que pasar a la API de WhatsApp Business (Cloud API) con un servidorcito que reciba el pedido y lo envíe. Ese cambio solo toca la función `enviar()` de `js/app.js`.
+
+## Instalarla en el celular (app web instalable)
+
+La página es una **PWA**: el cliente la abre en el navegador y el teléfono le ofrece
+instalarla. Después queda como un icono más, abre a pantalla completa (sin barra del
+navegador) y **funciona aunque no haya datos**, porque todo se guarda en el teléfono.
+
+- **Android (Chrome)**: aparece una banda arriba que dice *Instala Papitas Express* con
+  el botón **Instalar**. También sale en el menú del navegador (⋮ → *Instalar aplicación*).
+- **iPhone (Safari)**: aparece la banda con la instrucción *Compartir → Añadir a inicio*
+  (Apple no permite el botón automático).
+- Si el cliente toca la X, no vuelve a aparecer en ese teléfono.
+
+### Requisito: HTTPS
+
+El navegador solo permite instalar la app si la página va por **HTTPS** (o en
+`localhost`). Por la IP de la red local en `http://` la app funciona igual, pero **no
+ofrece instalarse**: es una regla de seguridad de los navegadores, no un fallo de la página.
+
+### Si cambias algo, sube la versión
+
+Los archivos van con `?v=N` en `index.html` **y** el número `VERSION` de `sw.js` (por
+ejemplo `pe-26`). El teléfono guarda una copia de la app para abrirla sin datos, así que
+si publicas un cambio y no subes esos números, el cliente seguirá viendo la versión
+vieja. Regla: **cada cambio, un número más en los dos sitios.**
+
+### Iconos y color de la app
+
+En `assets/icons/` (192, 512, maskable y el de iPhone). El maskable lleva el logo más
+pequeño a propósito: Android recorta el icono en círculo y así no corta el logo.
+El color rojo de la barra del sistema sale de `manifest.webmanifest` (`theme_color`).
 
 ## Publicarlo
 
