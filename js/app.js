@@ -359,6 +359,7 @@
           var bloqueado = !on && g.def.max && elegidas.length >= g.def.max;
           return '<button type="button" class="grow' + (on ? ' grow--on' : '') + '" data-op="' + esc(g.id) + '::' + esc(o.nombre) + '"' +
             (bloqueado ? ' aria-disabled="true"' : '') + ' aria-pressed="' + on + '">' +
+            (o.img ? '<img class="grow__img" src="' + esc(o.img) + '" alt="" loading="lazy" decoding="async">' : '') +
             '<span class="grow__n">' + esc(o.nombre) + (cuantas > 1 ? ' ×' + cuantas : '') + '</span>' +
             (o.precio ? '<span class="grow__p">+ ' + money(o.precio) + '</span>' : '<span class="grow__p">Incluida</span>') +
             '<span class="grow__add">' + ic(on ? 'check' : 'plus', 16) + '</span></button>';
