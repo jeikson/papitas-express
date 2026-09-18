@@ -59,7 +59,7 @@ productos: [
 
 ## Domicilio
 
-- **Valor fijo**: `domicilio: { activo: true, usarBarrios: false, valorFijo: 3000 }`.
+- **Valor fijo**: `domicilio: { activo: true, usarBarrios: false, valorFijo: 6000 }`.
 - **Por barrio/zona**: `usarBarrios: true` y llena la lista `barrios` en `js/menu.js`:
 
 ```js

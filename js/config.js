@@ -10,7 +10,7 @@ window.CONFIG = {
     whatsapp: '573007107250',
     telefonoVisible: '300 710 7250',
     instagram: 'papitas.express',
-    ciudad: 'Cartagena',
+    ciudad: 'Medellín',
     // Se muestra como referencia de entrega en la cabecera
     tiempoPreparacion: '25 a 35 min',
   },
@@ -29,7 +29,7 @@ window.CONFIG = {
     // true = el valor sale de la lista de barrios (js/menu.js → barrios).
     // false = se cobra valorFijo a todos.
     usarBarrios: false,
-    valorFijo: 3000,
+    valorFijo: 6000,
     minimoCompra: 0,
   },
 
