@@ -65,7 +65,9 @@ h1,h2,h3,h4{margin:0;font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight
 .top__brand{display:flex;align-items:center;gap:11px;min-width:0;text-align:left}
 .top__logo{width:auto;height:34px;object-fit:contain;background:none;border-radius:0;padding:0}
 .top__txt{display:flex;flex-direction:column;min-width:0}
-.top__line{display:flex;align-items:center;gap:4px;font-size:.68rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#entregaCiudad{overflow:hidden;text-overflow:ellipsis;min-width:0}
+#entregaEta{flex:none}
+.top__line{display:flex;align-items:center;gap:4px;min-width:0;font-size:clamp(.56rem,2.9vw,.66rem);font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top__fila{display:flex;align-items:baseline;gap:6px;min-width:0}
 .top__txt strong{font-family:Fredoka,sans-serif;font-size:.95rem;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top__txt small{color:var(--muted);font-size:.72rem;display:flex;align-items:center;gap:5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -598,4 +600,11 @@ input::placeholder,textarea::placeholder{color:var(--muted)}
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important}
   .card:hover{transform:none}
+}
+
+/* pantallas angostas: logo y separaciones más compactas para que quepa el tiempo */
+@media (max-width:374px){
+  .top__logo{height:27px}
+  .top__brand{gap:8px}
+  .top__inner{gap:8px}
 }

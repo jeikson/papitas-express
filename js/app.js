@@ -159,8 +159,12 @@
     $$('[data-tel]').forEach(function (e) { e.textContent = CFG.negocio.telefonoVisible; });
     $$('[data-instagram]').forEach(function (e) { e.textContent = CFG.negocio.instagram; });
     if (!CFG.extras.buscar) $('#buscadorWrap').hidden = true;
-    $('#entregaEn').textContent = 'Enviar a ' + CFG.negocio.ciudad +
-      (CFG.negocio.tiempoPreparacion ? ' · ' + CFG.negocio.tiempoPreparacion.replace(/ a /g, '-') : '');
+    // la cabecera es estrecha: ciudad y tiempo van en elementos aparte para que,
+    // si no caben, se recorte la ciudad y NUNCA el tiempo de entrega
+    $('#entregaCiudad').textContent = CFG.negocio.ciudad;
+    $('#entregaEta').textContent = CFG.negocio.tiempoPreparacion
+      ? ' · ' + CFG.negocio.tiempoPreparacion.replace(/ a /g, '-') : '';
+    ajustarCabecera();
 
     // todo <svg class="ic"> necesita viewBox: las rutas del sprite están en una
     // rejilla de 24x24 y sin viewBox se dibujan a tamaño nativo (se recortan)
@@ -172,8 +176,50 @@
     // la fila de categorías se pega justo debajo de la topbar: si su alto cambia
     // (texto largo, otra tipografía, rotación), el offset se recalcula en vez de
     // quedar con un número fijo desincronizado.
-    window.addEventListener('resize', medirTopbar);
+    window.addEventListener('resize', function () { medirTopbar(); ajustarCabecera(); });
     if (window.ResizeObserver) new ResizeObserver(medirTopbar).observe($('.top'));
+  }
+
+  // Si la línea de la cabecera no cabe, se esconde la ciudad: el tiempo de
+  // entrega siempre queda visible (nunca se corta a medias).
+  function copiarTexto(texto) {
+    function clasico() {
+      var t = document.createElement('textarea');
+      t.value = texto;
+      t.setAttribute('readonly', '');
+      t.style.position = 'fixed';
+      t.style.top = '-1000px';
+      document.body.appendChild(t);
+      t.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(t);
+      if (ok) { toast('Comanda copiada', 'check'); return; }
+      // último recurso: dejar la comanda seleccionada para que el cliente la copie
+      var pre = document.querySelector('.pre');
+      if (pre && window.getSelection) {
+        var rango = document.createRange();
+        rango.selectNodeContents(pre);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(rango);
+        toast('Dejamos la comanda seleccionada: mantenla pulsada y copia', 'x');
+      } else {
+        toast('No se pudo copiar, selecciona el texto', 'x');
+      }
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(texto).then(function () { toast('Comanda copiada', 'check'); }, clasico);
+    } else {
+      clasico();
+    }
+  }
+
+  function ajustarCabecera() {
+    var linea = $('.top__line'), ciudad = $('#entregaCiudad');
+    if (!linea || !ciudad) return;
+    ciudad.hidden = false;
+    if (linea.scrollWidth > linea.clientWidth + 1) ciudad.hidden = true;
   }
 
   function medirTopbar() {
@@ -937,7 +983,9 @@
         return toast('Pedido vaciado');
       }
       if (t.closest('#btnCopiar')) {
-        if (navigator.clipboard) navigator.clipboard.writeText((st.enviado && st.enviado.mensaje) || '').then(function () { toast('Comanda copiada', 'check'); });
+        // navigator.clipboard solo existe en https o localhost: si la web se
+        // aloja en http, hay que copiar por el método clásico
+        copiarTexto((st.enviado && st.enviado.mensaje) || '');
         return;
       }
       if (t.closest('#btnNuevo')) {
