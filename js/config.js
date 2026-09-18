@@ -11,7 +11,7 @@ window.CONFIG = {
     telefonoVisible: '300 710 7250',
     instagram: 'papitas.express',
     ciudad: 'Cartagena',
-    // Se muestra en el seguimiento del pedido
+    // Se muestra como referencia de entrega en la cabecera
     tiempoPreparacion: '25 a 35 min',
   },
 

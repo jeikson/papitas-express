@@ -2,8 +2,7 @@
    PAPITAS EXPRESS — estilos
    Base de diseño: ui-ux-pro-max (rojo apetitoso + dorado cálido, Fredoka+Nunito)
    Patrones de experiencia tipo Rappi: navegación inferior, contador en la
-   tarjeta del producto, carrito como pantalla completa por bloques y
-   seguimiento del pedido.
+   tarjeta del producto y carrito como pantalla completa por bloques.
    Reglas duras: paneles fijos animados solo con opacidad; el pie de cada
    panel es hermano flex (nunca sticky dentro del scroll).
    ========================================================================== */

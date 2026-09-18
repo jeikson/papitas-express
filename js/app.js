@@ -1,8 +1,8 @@
 /* ==========================================================================
    PAPITAS EXPRESS — lógica de la tienda (experiencia tipo Rappi)
    Inicio → ficha con grupos (obligatorio / máximos / recomendados) → contador
-   en la tarjeta → pantalla "Tu pedido" por bloques → comanda a WhatsApp →
-   seguimiento. Sin backend: el pedido vive en el chat.
+   en la tarjeta → pantalla "Tu pedido" por bloques → comanda a WhatsApp. El
+   estado del pedido lo maneja la tienda desde el chat; sin backend.
    ========================================================================== */
 (function () {
   'use strict';
