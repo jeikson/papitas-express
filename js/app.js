@@ -214,6 +214,12 @@
     $$('[data-ciudad]').forEach(function (e) { e.textContent = CFG.negocio.ciudad; });
     $$('[data-tel]').forEach(function (e) { e.textContent = CFG.negocio.telefonoVisible; });
     $$('[data-instagram]').forEach(function (e) { e.textContent = CFG.negocio.instagram; });
+    // el botón de Instagram del menú inferior: la URL se arma desde config.js
+    (function () {
+      var enlace = $('#navInstagram');
+      if (!enlace || !CFG.negocio.instagram) return;
+      enlace.href = 'https://www.instagram.com/' + CFG.negocio.instagram.replace(/^@/, '') + '/';
+    })();
     if (!CFG.extras.buscar) $('#buscadorWrap').hidden = true;
     // la cabecera es estrecha: ciudad y tiempo van en elementos aparte para que,
     // si no caben, se recorte la ciudad y NUNCA el tiempo de entrega
@@ -983,12 +989,6 @@
       var b = e.target.closest('[data-vista]'); if (!b) return;
       var v = b.dataset.vista;
       if (v === 'pedido') { abrirPedido(); return; }
-      if (v === 'buscar') {
-        cerrarTodo();
-        var inp = $('#buscar');
-        if (inp) { inp.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(function () { inp.focus({ preventScroll: true }); }, 320); }
-        return;
-      }
       cerrarTodo();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });

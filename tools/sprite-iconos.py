@@ -51,6 +51,14 @@ MAPA = {
     'smartphone': 'smartphone',
 }
 
+# Iconos que Lucide ya no incluye (retiró los de marcas en 1.x):
+# misma rejilla de 24x24 y mismo trazo que el resto, para que no desentonen.
+MANUALES = {
+    'instagram': '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>'
+                 '<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>'
+                 '<line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
+}
+
 # atributos que definen la geometría; el resto (stroke, fill, class…) lo pone el CSS
 GEOMETRIA = {'d', 'cx', 'cy', 'r', 'rx', 'ry', 'x', 'y', 'x1', 'y1', 'x2', 'y2',
              'width', 'height', 'points', 'transform'}
@@ -94,6 +102,8 @@ def construir() -> str:
             continue
         cuerpo = limpiar(ruta.read_text(encoding='utf-8'))
         lineas.append(f'    <g id="i-{alias}">{cuerpo}</g>')
+    for alias, cuerpo in MANUALES.items():
+        lineas.append(f'    <g id="i-{alias}">{cuerpo}</g>')
     lineas += ['  </defs>', '</svg>']
     if faltantes:
         print(f'AVISO: faltan en Lucide: {", ".join(faltantes)}', file=sys.stderr)
@@ -113,7 +123,7 @@ def main():
         sys.exit('No encontré el bloque del sprite en index.html')
     html = patron.sub(lambda _: sprite + '\n\n', html, count=1)
     INDEX.write_text(html, encoding='utf-8')
-    print(f'sprite actualizado: {len(MAPA)} iconos, {len(sprite)} bytes')
+    print(f'sprite actualizado: {len(MAPA) + len(MANUALES)} iconos, {len(sprite)} bytes')
 
 
 if __name__ == '__main__':

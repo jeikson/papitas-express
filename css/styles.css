@@ -274,6 +274,7 @@ h1,h2,h3,h4{margin:0;font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight
 }
 .nav__item{
   display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;
+  text-decoration:none;cursor:pointer;
   font-size:.7rem;font-weight:700;color:var(--muted);border-radius:var(--r);
   transition:color var(--t),background var(--t);
 }

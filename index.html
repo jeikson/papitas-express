@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-title" content="Papitas Express">
   <link rel="preload" href="assets/fonts/nunito-400-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/fredoka-500-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/fuentes.css?v=26">
-  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="stylesheet" href="css/fuentes.css?v=27">
+  <link rel="stylesheet" href="css/styles.css?v=27">
 </head>
 <body>
 
@@ -50,6 +50,7 @@
     <g id="i-utensils"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/> <path d="M7 2v20"/> <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></g>
     <g id="i-download"><path d="M12 15V3"/> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <path d="m7 10 5 5 5-5"/></g>
     <g id="i-smartphone"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/> <path d="M12 18h.01"/></g>
+    <g id="i-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></g>
   </defs>
 </svg>
 
@@ -140,9 +141,10 @@
   <button class="nav__item nav__item--on" data-vista="inicio">
     <svg class="ic ic--24" viewBox="0 0 24 24"><use href="#i-home"></use></svg><span>Inicio</span>
   </button>
-  <button class="nav__item" data-vista="buscar">
-    <svg class="ic ic--24" viewBox="0 0 24 24"><use href="#i-search"></use></svg><span>Buscar</span>
-  </button>
+  <a class="nav__item" id="navInstagram" href="#" target="_blank" rel="noopener me"
+     aria-label="Instagram de Papitas Express">
+    <svg class="ic ic--24" viewBox="0 0 24 24"><use href="#i-instagram"></use></svg><span>Instagram</span>
+  </a>
   <button class="nav__item" data-vista="pedido">
     <span class="nav__wrap"><svg class="ic ic--24" viewBox="0 0 24 24"><use href="#i-receipt"></use></svg>
       <b class="nav__badge" id="navBadge" hidden>0</b></span><span>Mi pedido</span>
@@ -175,9 +177,9 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<script src="js/config.js?v=26"></script>
-<script src="js/menu.js?v=26"></script>
-<script src="js/app.js?v=26"></script>
+<script src="js/config.js?v=27"></script>
+<script src="js/menu.js?v=27"></script>
+<script src="js/app.js?v=27"></script>
   <script>if ("serviceWorker" in navigator && location.protocol !== "file:"){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
 </body>
 </html>
