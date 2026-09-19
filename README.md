@@ -6,6 +6,10 @@ Tienda web para tomar pedidos: el cliente arma su carrito, deja sus datos y **la
 - Funciona abriendo `index.html` o subiendo la carpeta a cualquier hosting estático (Netlify, Cloudflare Pages, Vercel, GitHub Pages).
 - Carrito y datos del cliente guardados en el navegador (`localStorage`): si el cliente recarga, no pierde el pedido.
 
+**En línea:** https://jeikson.github.io/papitas-express/ — ese es el enlace que se
+comparte con los clientes (WhatsApp, Instagram, QR). Para publicar cambios mira
+[Publicarlo](#publicarlo-ya-está-publicado).
+
 ## Estructura
 
 ```
@@ -167,13 +171,61 @@ En `assets/icons/` (192, 512, maskable y el de iPhone). El maskable lleva el log
 pequeño a propósito: Android recorta el icono en círculo y así no corta el logo.
 El color rojo de la barra del sistema sale de `manifest.webmanifest` (`theme_color`).
 
-## Publicarlo
+## Publicarlo (ya está publicado)
 
-Cualquier hosting estático:
+**La tienda está en línea:** https://jeikson.github.io/papitas-express/
 
-- **Netlify / Cloudflare Pages**: arrastra la carpeta o conecta el repo. Sin build, sin comando.
-- **GitHub Pages**: sube los archivos y activa Pages sobre la rama.
-- Recomendado: HTTPS siempre (WhatsApp y algunos navegadores lo requieren para abrir enlaces externos sin avisos).
+- Repo: https://github.com/jeikson/papitas-express (público, sin *build*).
+- Hosting: **GitHub Pages**, rama `main`, carpeta raíz. HTTPS automático con
+  certificado de Let's Encrypt (renovación sola), y `http://` redirige a `https://`.
+- El service worker y la instalación funcionan porque va por HTTPS. El índice y el
+  `sw.js` se sirven con `Cache-Control: max-age=600`, así que un cambio se ve en
+  minutos; para forzarlo antes, sube los números de versión (ver abajo).
+
+### Publicar un cambio
+
+```bash
+cd ~/repos/papitas-express
+git add -A && git commit -m "lo que cambiaste"
+git push
+```
+
+GitHub Pages reconstruye solo (1-2 minutos). Míralo con:
+
+```bash
+gh api /repos/jeikson/papitas-express/pages/builds/latest --jq '.status'
+```
+
+### Cambiar el menú (lo de todos los días)
+
+1. **Precios, productos, adiciones, salsas, categorías** → `js/menu.js`.
+   Precios en pesos sin puntos (`30000`), `img: ''` = tarjeta sin foto,
+   `destacado: true` = cinta "Más pedida". Para cambiar fotos ve
+   [Las fotos van en dos formatos](#las-fotos-van-en-dos-formatos) (hay que subir
+   el `.jpg` **y** el `.webp` con el mismo nombre).
+2. **WhatsApp, horario, domicilio, formas de pago** → `js/config.js`.
+3. **Sube la versión** (si no, el teléfono sigue mostrando la copia vieja):
+   cambia `?v=N` en `index.html` **y** `VERSION = 'pe-N'` en `sw.js`, el mismo número.
+4. `git add -A && git commit -m "..." && git push`. En 1-2 minutos está en línea.
+
+Para verlo antes de publicar: `python3 -m http.server 8899` y abre
+`http://localhost:8899` (así también se instala, porque `localhost` cuenta como HTTPS).
+
+### Otros hostings
+
+Los archivos de configuración de otras casas siguen en el repo y no estorban:
+`_headers` (Netlify / Cloudflare Pages) y `.htaccess` (Apache / cPanel). GitHub Pages
+los ignora, así que si algún día te mudas solo hay que arrastrar la carpeta o conectar
+el repo. Cualquier hosting estático sirve: **sin build, sin comando de compilación**.
+Lo único obligatorio es **HTTPS** (WhatsApp y la instalación de la app lo piden).
+
+### Dominio propio (opcional)
+
+Si compras un dominio (por ejemplo `papitas.express`), en GitHub Pages se conecta en
+*Settings → Pages → Custom domain* y en el DNS del dominio se apunta a
+`jeikson.github.io` (o los 4 registros A de Pages). El certificado HTTPS lo emite
+GitHub automáticamente. No hace falta mover ningún archivo.
+
 
 ## Archivos de configuración del hosting
 
